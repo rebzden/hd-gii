@@ -2,6 +2,9 @@
 
 namespace hd\gii\generators\model;
 
+use Yii;
+use yii\gii\CodeFile;
+
 /**
  * Human Device model generator.
  *
