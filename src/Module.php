@@ -12,6 +12,15 @@ namespace hd\gii;
 class Module extends \yii\gii\Module
 {
     /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->setBasePath('@vendor/yiisoft/yii2-gii');
+    }
+    
+    /**
      * Returns the list of the core code generator configurations.
      * @return array the list of the core code generator configurations.
      */
