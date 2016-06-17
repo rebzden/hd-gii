@@ -1,0 +1,30 @@
+{
+    "name": "humandevice/hd-gii",
+    "description": "Human Device Yii 2 Gii generators",
+    "keywords": ["human device", "yii2", "gii", "code generator"],
+    "type": "yii2-extension",
+    "license": "Apache-2.0",
+    "support": {
+        "issues": "https://github.com/humandevice/hd-gii/issues",
+        "source": "https://github.com/humandevice/hd-gii"
+    },
+    "authors": [
+        {
+            "name": "Daniel Filipek",
+            "email": "df@human-device.com"
+        },
+        {
+            "name": "Pawel Brzozowski",
+            "email": "pb@human-device.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "yiisoft/yii2-gii": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "hd\\gii\\": "src/"
+        }
+    }
+}
