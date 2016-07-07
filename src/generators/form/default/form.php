@@ -9,8 +9,8 @@
 echo "<?php\n";
 ?>
 
-use common\ext\helpers\Html;
-use common\ext\bootstrap\ActiveForm;
+use common\components\helpers\Html;
+use common\components\bootstrap\ActiveForm;
 use yii\web\View;
 
 /* @var $this View */

@@ -12,7 +12,7 @@ namespace hd\gii\generators\crud;
 class Generator extends \yii\gii\generators\crud\Generator
 {
     public $baseControllerClass = 'common\components\web\ModelController';
-    public $searchModelClass = 'frontend\models\search\ModelSearch';
+    public $searchModelClass = '';
     
     /**
      * Whether to wrap the `GridView` or `ListView` widget with the 

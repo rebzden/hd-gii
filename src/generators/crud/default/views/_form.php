@@ -16,8 +16,8 @@ if (empty($safeAttributes)) {
 echo "<?php\n";
 ?>
 
-use common\ext\helpers\Html;
-use common\ext\bootstrap\ActiveForm;
+use common\components\helpers\Html;
+use common\components\bootstrap\ActiveForm;
 
 ?>
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form">

@@ -11,8 +11,8 @@ $urlParams = $generator->generateUrlParams();
 echo "<?php\n";
 ?>
 
-use common\ext\helpers\Html;
-use common\ext\widgets\DetailView;
+use common\components\helpers\Html;
+use common\components\widgets\DetailView;
 use yii\web\View;
 
 /* @var $this View */

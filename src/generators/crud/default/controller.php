@@ -29,8 +29,8 @@ echo "<?php\n";
 
 namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>;
 
-use common\ext\helpers\Html;
-use common\ext\helpers\Url;
+use common\components\helpers\Html;
+use common\components\helpers\Url;
 use Yii;
 use <?= ltrim($generator->modelClass, '\\') ?>;
 <?php if (!empty($generator->searchModelClass)): ?>

@@ -12,10 +12,10 @@ $nameAttribute = $generator->getNameAttribute();
 echo "<?php\n";
 ?>
 
-use common\ext\data\ActiveDataProvider;
-use common\ext\helpers\Html;
-use <?= $generator->indexWidgetType === 'grid' ? 'common\ext\grid\GridView' : 'common\ext\widgets\ListView' ?>;
-<?= $generator->enablePjax ? 'use common\ext\widgets\Pjax;' : '' ?>
+use common\components\data\ActiveDataProvider;
+use common\components\helpers\Html;
+use <?= $generator->indexWidgetType === 'grid' ? 'common\components\grid\GridView' : 'common\components\widgets\ListView' ?>;
+<?= $generator->enablePjax ? 'use common\components\widgets\Pjax;' : '' ?>
 use yii\web\View;
 
 /* @var $this View */
@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= "<?= " ?>GridView::widget([
         'dataProvider' => $dataProvider,
         <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n        'columns' => [\n" : "'columns' => [\n"; ?>
-            ['class' => 'common\ext\grid\SerialColumn'],
+            ['class' => 'common\components\grid\SerialColumn'],
     <?php
     $count = 0;
     if (($tableSchema = $generator->getTableSchema()) === false) {
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
         }
     }
     ?>
-            ['class' => 'common\ext\grid\ActionColumn'],
+            ['class' => 'common\components\grid\ActionColumn'],
         ],
     ]); ?>
     <?php else: ?>
