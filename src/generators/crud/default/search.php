@@ -34,7 +34,7 @@ use <?= ltrim($generator->modelClass, '\\') . (isset($modelAlias) ? " as $modelA
  * @copyright (c) <?= date('Y') ?>, Human Device sp. z o.o.
  * 
  */
-class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $modelClass ?>
+class <?= $searchModelClass ?> extends <?= (isset($modelAlias) ? $modelAlias : $modelClass) . "\n" ?>
 {
     /**
      * @inheritdoc
