@@ -31,7 +31,6 @@ use <?= ltrim($generator->modelClass, '\\') . (isset($modelAlias) ? " as $modelA
 
 /**
  * <?= $searchModelClass ?> represents the model behind the search form about `<?= $generator->modelClass ?>`.
- * @copyright (c) <?= date('Y') ?>, Human Device sp. z o.o.
  * 
  */
 class <?= $searchModelClass ?> extends <?= (isset($modelAlias) ? $modelAlias : $modelClass) . "\n" ?>

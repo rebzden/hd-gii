@@ -23,7 +23,6 @@ use Yii;
 
 /**
  * Model class for table "<?= $generator->generateTableName($tableName) ?>".
- * @copyright (c) <?= date('Y') ?>, Human Device sp. z o.o.
  *
 <?php foreach ($tableSchema->columns as $column): ?>
  * @property <?= "{$column->phpType} \${$column->name}\n" ?>

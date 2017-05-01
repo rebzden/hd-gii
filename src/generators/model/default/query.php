@@ -26,7 +26,6 @@ namespace <?= $generator->queryNs ?>;
 
 /**
  * This is the ActiveQuery class for [[<?= $modelFullClassName ?>]].
- * @copyright (c) <?= date('Y') ?>, Human Device sp. z o.o.
  *
  * @see <?= $modelFullClassName . "\n" ?>
  */

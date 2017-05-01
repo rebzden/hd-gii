@@ -43,7 +43,6 @@ use yii\filters\VerbFilter;
 
 /**
  * <?= $controllerClass ?>.
- * @copyright (c) <?= date('Y') ?>, Human Device sp. z o.o.
  * 
  */
 class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->baseControllerClass) . "\n" ?>

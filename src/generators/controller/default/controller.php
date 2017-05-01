@@ -16,7 +16,6 @@ namespace <?= $generator->getControllerNamespace() ?>;
 
 /**
  * <?= StringHelper::basename($generator->controllerClass) ?>.
- * @copyright (c) <?= date('Y') ?>, Human Device sp. z o.o.
  *
  */
 class <?= StringHelper::basename($generator->controllerClass) ?> extends <?= '\\' . trim($generator->baseClass, '\\') . "\n" ?>

@@ -15,7 +15,6 @@ use yii\web\Controller;
 
 /**
  * Default controller for the `<?= $generator->moduleID ?>` module
- * @copyright (c) <?= date('Y') ?>, Human Device sp. z o.o.
  */
 class DefaultController extends Controller
 {

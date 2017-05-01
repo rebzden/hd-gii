@@ -20,7 +20,6 @@ namespace <?= $generator->ns ?>;
 
 /**
  * <?= $className ?> model.
- * @copyright (c) <?= date('Y') ?>, Human Device sp. z o.o.
  *
  */
 class <?= $className ?> extends Base<?= $className . "\n" ?>

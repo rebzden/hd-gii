@@ -18,7 +18,6 @@ namespace <?= $ns ?>;
 
 /**
  * <?= $generator->moduleID ?> module definition class
- * @copyright (c) <?= date('Y') ?>, Human Device sp. z o.o.
  */
 class <?= $className ?> extends \yii\base\Module
 {
