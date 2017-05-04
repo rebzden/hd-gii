@@ -47,15 +47,7 @@ use yii\filters\VerbFilter;
  */
 class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->baseControllerClass) . "\n" ?>
 {
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-        $this->notFoundMessage = Yii::t('app', '<?= $modelClass ?> you are looking for can not be found.');
-    }
-    
+
     /**
      * @inheritdoc
      */
