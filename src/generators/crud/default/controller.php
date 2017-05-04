@@ -109,8 +109,8 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model = new <?= $modelClass ?>;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->ok(Yii::t('app', '<?= $modelClass ?> has been added.'));
+        if ($model->load($this->post()) && $model->save()) {
+            $this->success(Yii::t('app', '<?= $modelClass ?> has been added.'));
             return $this->goBack();
         }
         
@@ -126,8 +126,8 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model = <?= $modelClass ?>::findOneModel(<?= $actionParams ?>);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->ok(Yii::t('app', '<?= $modelClass ?> has been updated.'));
+        if ($model->load($this->post()) && $model->save()) {
+            $this->success(Yii::t('app', '<?= $modelClass ?> has been updated.'));
             return $this->refresh();
         }
         
@@ -142,9 +142,9 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function actionDelete(<?= $actionParams ?>)
     {
         if (<?= $modelClass ?>::findOneModel(<?= $actionParams ?>)->delete()) {
-            $this->ok(Yii::t('app', '<?= $modelClass ?> has been deleted.'));
+            $this->success(Yii::t('app', '<?= $modelClass ?> has been deleted.'));
         } else {
-            $this->err(Yii::t('app', 'Error while deleting <?= $modelClass ?>!'));
+            $this->error(Yii::t('app', 'Error while deleting <?= $modelClass ?>!'));
         }
         return $this->goBack();
     }
