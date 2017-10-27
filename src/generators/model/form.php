@@ -18,6 +18,10 @@ echo $form->field($generator, 'generateRelations')->dropDownList([
     Generator::RELATIONS_ALL_INVERSE => 'All relations with inverse',
 ]);
 echo $form->field($generator, 'generateLabelsFromComments')->checkbox();
+echo $form->field($generator, 'generateRepository')->checkbox();
+echo $form->field($generator, 'repositoryNs');
+echo $form->field($generator, 'generateService')->checkbox();
+echo $form->field($generator, 'serviceNs');
 echo $form->field($generator, 'generateQuery')->checkbox();
 echo $form->field($generator, 'queryNs');
 echo $form->field($generator, 'queryClass');
