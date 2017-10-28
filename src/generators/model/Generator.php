@@ -49,7 +49,8 @@ class Generator extends \yii\gii\generators\model\Generator
                 'relations'      => isset($relations[$tableName]) ? $relations[$tableName] : [],
             ];
 
-            $repositoryNamespace = $this->repositoryNs != $this->ns ?: $classNamespace;
+            $repositoryNamespace = $this->repositoryNs != $this->ns ? $this->repositoryNs : $classNamespace;
+            $queryNamespace = $this->queryNs != $this->ns ? $this->queryNs : $classNamespace;
             $files[] = new CodeFile(
                 Yii::getAlias('@' . str_replace('\\', '/', $classNamespace)) . '/Base' . $modelClassName . '.php',
                 $this->render('base-model.php', $params)
@@ -66,7 +67,7 @@ class Generator extends \yii\gii\generators\model\Generator
                 $params['className'] = $queryClassName;
                 $params['modelClassName'] = $modelClassName;
                 $files[] = new CodeFile(
-                    Yii::getAlias('@' . str_replace('\\', '/', $classNamespace)) . '/' . $queryClassName . '.php',
+                    Yii::getAlias('@' . str_replace('\\', '/', $queryNamespace)) . '/' . $queryClassName . '.php',
                     $this->render('query.php', $params)
                 );
             }
@@ -75,6 +76,7 @@ class Generator extends \yii\gii\generators\model\Generator
                 $params['className'] = $repositoryClassName;
                 $params['modelClassName'] = $modelClassName;
                 $params['queryClassName'] = $queryClassName;
+                $params['queryNamespace'] = $queryNamespace;
                 $params['repositoryNamespace'] = $repositoryNamespace;
                 $params['repositoryClassName'] = $repositoryClassName;
                 $files[] = new CodeFile(
