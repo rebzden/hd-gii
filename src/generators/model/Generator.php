@@ -1,6 +1,6 @@
 <?php
 
-namespace rebzden\gii\generators\model;
+namespace hd\gii\generators\model;
 
 use Yii;
 use yii\gii\CodeFile;
