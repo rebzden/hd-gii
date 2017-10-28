@@ -106,11 +106,7 @@ class Generator extends \yii\gii\generators\model\Generator
      */
     protected function generateRepositoryClassName($modelClassName)
     {
-        $queryClassName = $this->queryClass;
-        if (empty($queryClassName) || strpos($this->tableName, '*') !== false) {
-            $queryClassName = $modelClassName . 'Repository';
-        }
-        return $queryClassName;
+        return $modelClassName . 'Repository';
     }
 
     /**
@@ -120,11 +116,7 @@ class Generator extends \yii\gii\generators\model\Generator
      */
     protected function generateServiceClassName($modelClassName)
     {
-        $queryClassName = $this->queryClass;
-        if (empty($queryClassName) || strpos($this->tableName, '*') !== false) {
-            $queryClassName = $modelClassName . 'Service';
-        }
-        return $queryClassName;
+        return  $modelClassName . 'Service';;
     }
 
     public function generateLabel($className, $attr, $label, $placeholders = [])
