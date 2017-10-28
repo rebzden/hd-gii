@@ -38,6 +38,7 @@ class Generator extends \yii\gii\generators\model\Generator
             $repositoryClassName = ($this->generateRepository) ? $this->generateRepositoryClassName($modelClassName) : false;
             $serviceClassName = ($this->generateService) ? $this->generateServiceClassName($modelClassName) : false;
             $tableSchema = $db->getTableSchema($tableName);
+            $classNamespace = $this->ns . '\\' . strtolower(Inflector::camelize($modelClassName));
             $params = [
                 'tableName'      => $tableName,
                 'className'      => $modelClassName,
@@ -47,11 +48,8 @@ class Generator extends \yii\gii\generators\model\Generator
                 'rules'          => $this->generateRules($tableSchema),
                 'relations'      => isset($relations[$tableName]) ? $relations[$tableName] : [],
             ];
-            $classNamespace = $this->ns . '\\' . strtolower(Inflector::camelize($modelClassName));
-            $repositoryNamespace = $this->repositoryNs;
-            if ($this->repositoryNs == $this->ns) {
-                $repositoryNamespace = $classNamespace;
-            }
+
+            $repositoryNamespace = $this->repositoryNs != $this->ns ?: $classNamespace;
             $files[] = new CodeFile(
                 Yii::getAlias('@' . str_replace('\\', '/', $classNamespace)) . '/Base' . $modelClassName . '.php',
                 $this->render('base-model.php', $params)
@@ -110,7 +108,7 @@ class Generator extends \yii\gii\generators\model\Generator
     {
         $queryClassName = $this->queryClass;
         if (empty($queryClassName) || strpos($this->tableName, '*') !== false) {
-            $queryClassName = $modelClassName . 'Query';
+            $queryClassName = $modelClassName . 'Repository';
         }
         return $queryClassName;
     }
@@ -124,9 +122,29 @@ class Generator extends \yii\gii\generators\model\Generator
     {
         $queryClassName = $this->queryClass;
         if (empty($queryClassName) || strpos($this->tableName, '*') !== false) {
-            $queryClassName = $modelClassName . 'Query';
+            $queryClassName = $modelClassName . 'Service';
         }
         return $queryClassName;
     }
 
+    public function generateLabel($className, $attr, $label, $placeholders = [])
+    {
+        $label = addslashes($label);
+        if ($this->enableI18N) {
+            $str = "Yii::t('" . $this->messageCategory . "', '" . strtolower($className) . "." . $attr . "')";
+        } else {
+            // No I18N, replace placeholders by real words, if any
+            if (!empty($placeholders)) {
+                $phKeys = array_map(function ($word) {
+                    return '{' . $word . '}';
+                }, array_keys($placeholders));
+                $phValues = array_values($placeholders);
+                $str = "'" . str_replace($phKeys, $phValues, $label) . "'";
+            } else {
+                // No placeholders, just the given string
+                $str = "'" . $label . "'";
+            }
+        }
+        return $str;
+    }
 }

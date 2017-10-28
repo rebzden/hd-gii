@@ -4,7 +4,7 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $generator hd\gii\generators\model\Generator */
+/* @var $generator rebzden\gii\generators\model\Generator */
 /* @var $tableName string full table name */
 /* @var $className string class name */
 /* @var $queryClassName string query class name */
@@ -70,7 +70,7 @@ class Base<?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\'
     {
         return [
 <?php foreach ($labels as $name => $label): ?>
-            <?= "'$name' => " . $generator->generateString($label) . ",\n" ?>
+            <?= "'$name' => " . $generator->generateLabel($className,$name,$label) . ",\n" ?>
 <?php endforeach; ?>
         ];
     }

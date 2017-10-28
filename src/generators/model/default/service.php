@@ -20,7 +20,7 @@ echo "<?php\n";
 
 namespace <?= $generator->ns ?>;
 
-use <?= $repositoryNamespace ?>;
+use <?= $repositoryNamespace ?><?="\\".$repositoryClassName?>;
 use Yii;
 
 /**
