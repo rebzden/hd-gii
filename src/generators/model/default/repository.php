@@ -35,6 +35,6 @@ class <?= $repositoryClassName ?> extends Repository
     */
     public function basicFind()
     {
-        return <?=$className?>::find();
+        return <?=$queryClassName?>::find();
     }
 }
