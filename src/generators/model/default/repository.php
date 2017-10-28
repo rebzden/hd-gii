@@ -22,11 +22,12 @@ namespace <?= $repositoryNamespace ?>;
 
 use Yii;
 use common\components\Repository;
+use <?= $queryNamespace ?><?= "\\" . $queryClassName ?>;
 
 /**
- * Repository for model "<?= $className ?>".
- *
- */
+* Repository for model "<?= $className ?>".
+*
+*/
 class <?= $repositoryClassName ?> extends Repository
 {
 
@@ -35,6 +36,6 @@ class <?= $repositoryClassName ?> extends Repository
     */
     public function basicFind()
     {
-        return <?=$queryClassName?>::find();
+        return <?= $queryClassName ?>::find();
     }
 }

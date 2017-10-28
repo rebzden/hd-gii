@@ -18,7 +18,7 @@
 echo "<?php\n";
 ?>
 
-namespace <?= $generator->ns ?>;
+namespace <?= $generator->serviceNs ?>;
 
 use <?= $repositoryNamespace ?><?="\\".$repositoryClassName?>;
 use Yii;
@@ -26,7 +26,7 @@ use Yii;
 /**
  * Service for class "<?= $className ?>".
  */
-class <?= $className ?>Service extends Object
+class <?= $className ?> extends Object
 {
     /**
     * @return <?= $repositoryClassName ?>|object
