@@ -38,10 +38,11 @@ class Generator extends \yii\gii\generators\model\Generator
             $repositoryClassName = ($this->generateRepository) ? $this->generateRepositoryClassName($modelClassName) : false;
             $serviceClassName = ($this->generateService) ? $this->generateServiceClassName($modelClassName) : false;
             $tableSchema = $db->getTableSchema($tableName);
-            $classNamespace = $this->ns . '\\' . strtolower(Inflector::camelize($modelClassName));
+            $modelNamespace = $this->ns . '\\' . strtolower(Inflector::camelize($modelClassName));
             $params = [
                 'tableName'      => $tableName,
                 'className'      => $modelClassName,
+                'classNamespace' => $modelNamespace,
                 'queryClassName' => $queryClassName,
                 'tableSchema'    => $tableSchema,
                 'labels'         => $this->generateLabels($tableSchema),
@@ -49,16 +50,16 @@ class Generator extends \yii\gii\generators\model\Generator
                 'relations'      => isset($relations[$tableName]) ? $relations[$tableName] : [],
             ];
 
-            $repositoryNamespace = $this->repositoryNs != $this->ns ? $this->repositoryNs : $classNamespace;
-            $queryNamespace = $this->queryNs != $this->ns ? $this->queryNs : $classNamespace;
+            $repositoryNamespace = $this->repositoryNs != $this->ns ? $this->repositoryNs : $modelNamespace;
+            $queryNamespace = $this->queryNs != $this->ns ? $this->queryNs : $modelNamespace;
             $files[] = new CodeFile(
-                Yii::getAlias('@' . str_replace('\\', '/', $classNamespace)) . '/Base' . $modelClassName . '.php',
+                Yii::getAlias('@' . str_replace('\\', '/', $modelNamespace)) . '/Base' . $modelClassName . '.php',
                 $this->render('base-model.php', $params)
             );
 
             // extended model :
             $files[] = new CodeFile(
-                Yii::getAlias('@' . str_replace('\\', '/', $classNamespace)) . '/' . $modelClassName . '.php',
+                Yii::getAlias('@' . str_replace('\\', '/', $modelNamespace)) . '/' . $modelClassName . '.php',
                 $this->render('model.php', $params)
             );
 
@@ -66,6 +67,7 @@ class Generator extends \yii\gii\generators\model\Generator
             if ($queryClassName) {
                 $params['className'] = $queryClassName;
                 $params['modelClassName'] = $modelClassName;
+                $params['queryNamespace'] = $queryNamespace;
                 $files[] = new CodeFile(
                     Yii::getAlias('@' . str_replace('\\', '/', $queryNamespace)) . '/' . $queryClassName . '.php',
                     $this->render('query.php', $params)
@@ -118,7 +120,7 @@ class Generator extends \yii\gii\generators\model\Generator
      */
     protected function generateServiceClassName($modelClassName)
     {
-        return  $modelClassName . 'Service';;
+        return $modelClassName . 'Service';;
     }
 
     public function generateLabel($className, $attr, $label, $placeholders = [])

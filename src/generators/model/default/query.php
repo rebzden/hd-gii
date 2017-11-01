@@ -22,7 +22,7 @@ if ($generator->ns !== $generator->queryNs) {
 echo "<?php\n";
 ?>
 
-namespace <?= $generator->queryNs ?>;
+namespace <?= $queryNamespace ?>;
 
 /**
  * This is the ActiveQuery class for [[<?= $modelFullClassName ?>]].
