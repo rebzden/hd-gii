@@ -78,7 +78,7 @@ class Base<?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\'
 
     /**
      * Returns raw <?= $name ?> relation query.
-     * @return ActiveQuery
+     * @return ActiveQuery|\yii\db\ActiveQuery
      */
     public function getRaw<?= $name ?>()
     {
