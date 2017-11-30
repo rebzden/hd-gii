@@ -21,7 +21,7 @@ use common\components\widgets\ActiveForm;
 
 
 <?="/* @var \$model $generator->modelClass */\n"?>
-
+<?="?>"?>
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form">
     <div class="row">
         <div class="col-md-12">
@@ -30,17 +30,17 @@ use common\components\widgets\ActiveForm;
                     <h3 class="box-title"><?= Inflector::camel2words(StringHelper::basename($generator->modelClass)); ?></h3>
                 </div>
                 <?= "<?php " ?>$form = ActiveForm::begin(); ?>
-                <div class="box-body">
+                    <div class="box-body">
 
                     <?php foreach ($generator->getColumnNames() as $attribute) {
                         if (in_array($attribute, $safeAttributes)) {
                             echo "<?= " . $generator->generateActiveField($attribute) . " ?>\n";
                         }
                     } ?>
-                </div>
-                <div class="box-footer">
-                    <?= "<?= " ?>Html::submitButton(Yii::t('app', 'form.save'), ['class' => 'pull-right']) ?>
-                </div>
+                    </div>
+                    <div class="box-footer">
+                        <?= "<?= " ?>Html::submitButton(Yii::t('app', 'form.save'), ['class' => 'pull-right']) ?>
+                    </div>
                 <?= "<?php " ?>ActiveForm::end(); ?>
             </div>
         </div>
