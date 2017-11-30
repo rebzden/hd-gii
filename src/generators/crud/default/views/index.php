@@ -33,42 +33,42 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?= $generator->enablePjax ? '<?php Pjax::begin() ?>' : '' ?>
     <?php if ($generator->indexWidgetType === 'grid'): ?>
-        <?= "<?= " ?>GridView::widget([
+    <?= "<?= " ?>GridView::widget([
         'dataProvider' => $dataProvider,
         <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n        'columns' => [\n" : "'columns' => [\n"; ?>
-        ['class' => SerialColumn::class],
-        <?php
-        $count = 0;
-        if (($tableSchema = $generator->getTableSchema()) === false) {
-            foreach ($generator->getColumnNames() as $name) {
-                if (++$count < 6) {
-                    echo "            '" . $name . "',\n";
-                } else {
-                    echo "            // '" . $name . "',\n";
-                }
-            }
-        } else {
-            foreach ($tableSchema->columns as $column) {
-                $format = $generator->generateColumnFormat($column);
-                if (++$count < 6) {
-                    echo "            '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
-                } else {
-                    echo "            // '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
-                }
+            ['class' => SerialColumn::class],
+    <?php
+    $count = 0;
+    if (($tableSchema = $generator->getTableSchema()) === false) {
+        foreach ($generator->getColumnNames() as $name) {
+            if (++$count < 6) {
+                echo "            '" . $name . "',\n";
+            } else {
+                echo "            // '" . $name . "',\n";
             }
         }
-        ?>
-        ['class' => ActionColumn::class],
+    } else {
+        foreach ($tableSchema->columns as $column) {
+            $format = $generator->generateColumnFormat($column);
+            if (++$count < 6) {
+                echo "            '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+            } else {
+                echo "            // '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+            }
+        }
+    }
+    ?>
+            ['class' => ActionColumn::class],
         ],
-        ]); ?>
+    ]); ?>
     <?php else: ?>
-        <?= "<?= " ?>ListView::widget([
+    <?= "<?= " ?>ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions'  => ['class' => 'item'],
         'itemView'     => function ($model, $key, $index, $widget) {
-        return Html::a(Html::encode($model-><?= $nameAttribute ?>), ['view', <?= $urlParams ?>]);
+            return Html::a(Html::encode($model-><?= $nameAttribute ?>), ['view', <?= $urlParams ?>]);
         },
-        ]) ?>
+    ]) ?>
     <?php endif; ?>
     <?= $generator->enablePjax ? '<?php Pjax::end() ?>' : '' ?>
 </div>
