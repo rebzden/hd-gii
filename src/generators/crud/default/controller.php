@@ -31,26 +31,32 @@ namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>
 
 use common\components\helpers\Html;
 use common\components\helpers\Url;
+use SamIT\Yii2\Traits\ActionInjectionTrait;
 use Yii;
 use <?= ltrim($generator->modelClass, '\\') ?>;
 <?php if (!empty($generator->searchModelClass)): ?>
-use <?= ltrim($generator->searchModelClass, '\\') . (isset($searchModelAlias) ? " as $searchModelAlias" : "") ?>;
+    use <?= ltrim($generator->searchModelClass, '\\') . (isset($searchModelAlias) ? " as $searchModelAlias" : "") ?>;
 <?php else: ?>
-use yii\data\ActiveDataProvider;
+    use yii\data\ActiveDataProvider;
+<?php endif; ?>
+<?php if (!empty($generator->formModelClass)): ?>
+    use <?= ltrim($generator->formModelClass, '\\') ?>;
 <?php endif; ?>
 use <?= ltrim($generator->baseControllerClass, '\\') ?>;
 use yii\filters\VerbFilter;
 
 /**
- * <?= $controllerClass ?>.
- * 
- */
+* <?= $controllerClass ?>.
+*
+*/
 class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->baseControllerClass) . "\n" ?>
 {
 
+use ActionInjectionTrait;
+<?php if($generator->generateDelete):?>
     /**
-     * @inheritdoc
-     */
+    * @inheritdoc
+    */
     public function behaviors()
     {
         return [
@@ -62,90 +68,137 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
             ],
         ];
     }
+<?php endif;?>
 
+<?php if($generator->generateIndex):?>
     /**
-     * All <?= $modelClass ?> models.
-     * @return mixed
-     */
-    public function actionIndex()
+    * All <?= $modelClass ?> models.<?= empty($generator->searchModelClass) ? "\n".$generator->repositoryDocumentation():""?>
+    * @return mixed
+    */
+    public function actionIndex(<?= empty($generator->searchModelClass) ? $generator->repositoryParam() : ""?>)
     {
-        Url::remember();
-<?php if (!empty($generator->searchModelClass)): ?>
+    Url::remember();
+    <?php if (!empty($generator->searchModelClass)): ?>
         $searchModel = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel'  => $searchModel,
-            'dataProvider' => $dataProvider,
+        return $this-><?= $generator->renderFunction($generator->ajaxCreate) ?>('index', [
+        'searchModel'  => $searchModel,
+        'dataProvider' => $dataProvider,
         ]);
-<?php else: ?>
+    <?php else: ?>
         $dataProvider = new ActiveDataProvider([
-            'query' => <?= $modelClass ?>::find(),
+        'query' => <?=$generator->findModel()?>,
         ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
+        return $this-><?= $generator->renderFunction($generator->ajaxCreate) ?>('index', [
+        'dataProvider' => $dataProvider,
         ]);
-<?php endif; ?>
+    <?php endif; ?>
     }
-
+<?php endif;?>
+<?php if($generator->generateView):?>
     /**
-     * Displaying <?= $modelClass ?> model.
-     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
-     * @return mixed
-     */
-    public function actionView(<?= $actionParams ?>)
+    * Displaying <?= $modelClass ?> model.
+    * <?= implode("\n     * ", $actionParamComments) . "\n" ?><?=$generator->repositoryDocumentation()?>
+    * @return mixed
+    */
+    public function actionView(<?= $actionParams ?><?=$generator->repositoryParam()?>)
     {
-        return $this->render('view', [
-            'model' => <?= $modelClass ?>::findOneModel(<?= $actionParams ?>),
-        ]);
+    return $this-><?= $generator->renderFunction($generator->ajaxView) ?>('view', [
+    'model' => <?=$generator->findModel($actionParams)?>,
+    ]);
     }
+<?php endif;?>
 
+<?php if($generator->generateCreate):?>
     /**
-     * Creating a new <?= $modelClass ?> model.
-     * @return mixed
-     */
+    * Creating a new <?= $modelClass ?> model.
+    * @return mixed
+    */
     public function actionCreate()
     {
-        $model = new <?= $modelClass ?>;
+    $model = new <?= $generator->formClass() ?>;
 
-        if ($model->load($this->post()) && $model->save()) {
-            $this->success(Yii::t('app', '<?= $modelClass ?> has been added.'));
-            return $this->goBack();
-        }
-        
-        return $this->render('create', ['model' => $model]);
+    if ($model->load($this->post())) {
+    if($model-><?= $generator->saveMethod() ?>){
+    <?php if($generator->ajaxCreate):?>
+        return $this->ajaxSuccess(Yii::t('flash','<?= strtolower($modelClass) ?>.create_successful'));
+    <?php else:?>
+        $this->success(Yii::t('flash', '<?= strtolower($modelClass) ?>.create_successful'));
+        return $this->goBack();
+    <?php endif;?>
+    } else {
+    <?php if($generator->ajaxCreate):?>
+        return $this->ajaxError(Yii::t('flash','<?= strtolower($modelClass) ?>.create_error'));
+    <?php else:?>
+        $this->error(Yii::t('flash', '<?= strtolower($modelClass) ?>.create_error'));
+        return $this->refresh();
+    <?php endif;?>
+    }
     }
 
+    return $this-><?= $generator->renderFunction($generator->ajaxCreate) ?>('create', ['model' => $model]);
+    }
+<?php endif;?>
+
+<?php if($generator->generateUpdate):?>
     /**
-     * Updating an existing <?= $modelClass ?> model.
-     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
-     * @return mixed
-     */
+    * Updating an existing <?= $modelClass ?> model.
+    * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
+    * @return mixed
+    */
     public function actionUpdate(<?= $actionParams ?>)
     {
-        $model = <?= $modelClass ?>::findOneModel(<?= $actionParams ?>);
+    $model = <?= $generator->formClass() ?>::findOneModel(<?= $actionParams ?>);
 
-        if ($model->load($this->post()) && $model->save()) {
-            $this->success(Yii::t('app', '<?= $modelClass ?> has been updated.'));
-            return $this->refresh();
-        }
-        
-        return $this->render('update', ['model' => $model]);
+    if ($model->load($this->post())) {
+    if($model-><?= $generator->saveMethod() ?>){
+    <?php if($generator->ajaxUpdate):?>
+        return $this->ajaxSuccess(Yii::t('flash','<?= strtolower($modelClass) ?>.update_successful'));
+    <?php else:?>
+        $this->success(Yii::t('flash', '<?= strtolower($modelClass) ?>.update_successful'));
+        return $this->goBack();
+    <?php endif;?>
+    } else {
+    <?php if($generator->ajaxUpdate):?>
+        return $this->ajaxError(Yii::t('flash','<?= strtolower($modelClass) ?>.update_error'));
+    <?php else:?>
+        $this->error(Yii::t('flash', '<?= strtolower($modelClass) ?>.update_error'));
+        return $this->refresh();
+    <?php endif;?>
     }
+    }
+
+
+    return $this-><?= $generator->renderFunction($generator->ajaxUpdate) ?>('update', ['model' => $model]);
+    }
+<?php endif;?>
+
+<?php if($generator->generateDelete):?>
 
     /**
-     * Deleting an existing <?= $modelClass ?> model.
-     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
-     * @return mixed
-     */
-    public function actionDelete(<?= $actionParams ?>)
+    * Deleting an existing <?= $modelClass ?> model.
+    * <?= implode("\n     * ", $actionParamComments) . "\n" ?><?=$generator->repositoryDocumentation()?>
+    * @return mixed
+    */
+    public function actionDelete(<?= $actionParams ?><?=$generator->repositoryParam()?>)
     {
-        if (<?= $modelClass ?>::findOneModel(<?= $actionParams ?>)->delete()) {
-            $this->success(Yii::t('app', '<?= $modelClass ?> has been deleted.'));
-        } else {
-            $this->error(Yii::t('app', 'Error while deleting <?= $modelClass ?>!'));
-        }
+    $model = <?=$generator->findModel($actionParams)?>;
+    if ($model->remove()) {
+    <?php if($generator->ajaxDelete):?>
+        return $this->ajaxSuccess(Yii::t('flash','<?= strtolower($modelClass) ?>.delete_successful'));
+    <?php else:?>
+        $this->success(Yii::t('flash', '<?= strtolower($modelClass) ?>.delete_successful'));
         return $this->goBack();
+    <?php endif;?>
+    } else {
+    <?php if($generator->ajaxDelete):?>
+        return $this->ajaxSuccess(Yii::t('flash','<?= strtolower($modelClass) ?>.delete_successful'));
+    <?php else:?>
+        $this->success(Yii::t('flash', '<?= strtolower($modelClass) ?>.delete_successful'));
+        return $this->goBack();
+    <?php endif;?>
     }
+    }
+<?php endif;?>
+
 }
