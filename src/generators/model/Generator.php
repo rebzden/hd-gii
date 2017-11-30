@@ -123,11 +123,23 @@ class Generator extends \yii\gii\generators\model\Generator
         return $modelClassName . 'Service';;
     }
 
+    private function genericLabels()
+    {
+        return [
+            'updated_at',
+            'created_at'
+        ];
+    }
+
     public function generateLabel($className, $attr, $label, $placeholders = [])
     {
         $label = addslashes($label);
         if ($this->enableI18N) {
-            $str = "Yii::t('" . $this->messageCategory . "', '" . strtolower($className) . "." . $attr . "')";
+            $model = strtolower($className);
+            if (in_array($attr, $this->genericLabels())) {
+                $model = 'model';
+            }
+            $str = "Yii::t('" . $this->messageCategory . "', '" . $model . "." . $attr . "')";
         } else {
             // No I18N, replace placeholders by real words, if any
             if (!empty($placeholders)) {
