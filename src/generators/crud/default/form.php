@@ -14,6 +14,9 @@ use <?= $generator->modelClass ?>;
 class <?= StringHelper::basename($generator->formModelClass) ?> extends <?= StringHelper::basename($generator->modelClass) . "\n" ?>
 {
 
-
+    public function saveForm()
+    {
+        return $this->save();
+    }
 }
 
